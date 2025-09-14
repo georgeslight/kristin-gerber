@@ -1,5 +1,46 @@
 package pages
 
-templ HomePage() {
-    <h1 class="text-3xl font-bold text-[#007D9C]">Hello World From Home</h1>
+import (
+    "kristin-gerber/internal/model"
+)
+
+templ HomePage(data model.HomeData) {
+    <div
+        x-data="{
+            scrollProgress: 0,
+            updateScroll() {
+                const container = $refs.scrollContainer;
+                const scrollTop = container.scrollTop;
+                const maxScroll = container.clientHeight;
+                if (maxScroll > 0) {
+                    this.scrollProgress = (scrollTop / maxScroll) * 100;
+                }
+            }
+        }"
+        class="max-h-[calc(100vh-8rem-8rem)] w-full"
+    >
+        <div
+            x-ref="scrollContainer"
+            @scroll="updateScroll()"
+            class="h-full overflow-y-auto overflow-x-hidden"
+        >
+            <!-- Content to enable scrolling -->
+            <div class="min-h-[500vh]">
+
+                <!-- Sticky gallery that moves horizontally -->
+                <div class="sticky top-0 h-full flex items-center">
+
+                    <div
+                        x-ref="images"
+                        class="flex items-center justify-center md:justify-start transition-transform duration-75 ease-out"
+                        :style="`transform: translateX(${-scrollProgress}%)`"
+                    >
+                        for _, image := range data.HomeImages {
+                            <img src={ image.Src } alt={ image.Alt } class="object-contain h-200 mx-8" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
