@@ -35,14 +35,17 @@
           (templ system)
           air
           bun
-          gopls
-          delve
           fswatch
-          tailwindcss-language-server
+          montserrat
+          zsh
+          # gopls
+          # delve
+          # tailwindcss-language-server
         ];
 
         shellHook = ''
           make help
+          exec zsh
         '';
       }
     );
